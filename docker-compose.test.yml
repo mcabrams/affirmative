@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  web:
+    extends:
+      file: docker-compose.base.yml
+      service: web
+    links:
+      - "selenium"
+  selenium:
+    image: selenium/standalone-chrome:2.53.0
+    ports:
+      - 4444
+    environment:
+      DBUS_SESSION_BUS_ADDRESS: /dev/null
+      no_proxy: localhost # Fix for 2.53.0 image issues https://github.com/SeleniumHQ/docker-selenium/issues/208
+      HUB_ENV_no_proxy: localhost # Fix for 2.53.0 image issues https://github.com/SeleniumHQ/docker-selenium/issues/208
