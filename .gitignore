@@ -3,3 +3,6 @@ __pycache__/
 
 # Sqlite files
 db.sqlite3
+
+# Docker environment variable file
+web.env
