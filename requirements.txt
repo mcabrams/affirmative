@@ -2,3 +2,5 @@ Django==1.11
 bpython
 django-anymail==0.9
 isort
+requests==2.8.1
+selenium==2.53.6
