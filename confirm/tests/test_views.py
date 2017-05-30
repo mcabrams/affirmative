@@ -1,15 +1,11 @@
 from unittest.mock import patch
 
 
-from django.conf import settings
-from django.core import mail
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
-from django.template.loader import render_to_string
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from django.urls import reverse
 
 from confirm.models import Confirmation
-from confirm.views import send_confirm_request
 
 
 class RequestConfirmTestCase(TestCase):
@@ -55,33 +51,3 @@ class ConfirmTestCase(TestCase):
         self.client.get(url)
         confirmation.refresh_from_db()
         self.assertTrue(confirmation.confirmed)
-
-
-class SendConfirmRequestTestCase(TestCase):
-    @patch('confirm.views.send_mail')
-    def test_calls_send_mail_properly(self, send_mail_mock):
-        send_confirm_request('foobar', 1)
-
-        text = render_to_string('emails/confirm_request.txt', context={
-            'confirm_description': 'foobar',
-            'confirmation_id': 1,
-        })
-        html = render_to_string('emails/confirm_request.html', context={
-            'confirm_description': 'foobar',
-            'confirmation_id': 1,
-        })
-
-        send_mail_mock.assert_called_once_with(
-            'Affirmative?',
-            text,
-            'notifications@sandbox8b7c091e63de43b5b29add0f16145485.mailgun.org',
-            [settings.CONFIRMATION_EMAIL],
-            html_message=html)
-
-    @override_settings(DOMAIN='foo.com')
-    def test_confirmation_links_are_correct_in_email(self):
-        confirmation_id = 1
-        send_confirm_request('foobar', confirmation_id)
-        expected_href = 'foo.com' + reverse('confirm', args=[confirmation_id])
-        self.assertIn('<a href="{}">Confirm</a>'.format(expected_href),
-                      mail.outbox[0].body)

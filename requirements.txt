@@ -4,3 +4,4 @@ django-anymail==0.9
 isort
 requests==2.8.1
 selenium==2.53.6
+watchdog==0.8.3

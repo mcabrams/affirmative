@@ -1,10 +1,8 @@
-from django.conf import settings
-from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
+from .actions import send_confirm_request
 from .models import Confirmation
 
 
@@ -26,18 +24,3 @@ def confirm(req, confirmation_id):
     confirmation.confirm()
 
     return HttpResponse()
-
-
-def send_confirm_request(confirm_description, confirmation_id):
-    text = render_to_string('emails/confirm_request.txt', context={
-        'confirm_description': confirm_description,
-        'confirmation_id': confirmation_id,
-    })
-
-    html = render_to_string('emails/confirm_request.html', context={
-        'confirm_description': confirm_description,
-        'confirmation_id': confirmation_id,
-    })
-
-    send_mail('Affirmative?', text, 'notifications@sandbox8b7c091e63de43b5b29add0f16145485.mailgun.org',
-              [settings.CONFIRMATION_EMAIL], html_message=html)
