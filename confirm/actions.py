@@ -1,28 +1,34 @@
+import os
+import shutil
+
 from django.conf import settings
-from django.template.loader import render_to_string
-from django.core.mail import send_mail
+
+from emails.send import send_email
 
 from . import models
-
 
 EMAIL_ADDRESS = ('notifications@mg.affirmative.site')
 
 
-def send_confirm_request(confirm_description, confirmation_id):
-    text = render_to_string('emails/confirm_request.txt', context={
-        'confirm_description': confirm_description,
-        'confirmation_id': confirmation_id,
-    })
+def send_confirm_request(confirmation):
+    context = {
+        'confirmation': confirmation
+    }
 
-    html = render_to_string('emails/confirm_request.html', context={
-        'confirm_description': confirm_description,
-        'confirmation_id': confirmation_id,
-    })
-
-    send_mail('Affirmative?', text, EMAIL_ADDRESS,
-              [settings.CONFIRMATION_EMAIL], html_message=html)
+    send_email('Affirmative?', EMAIL_ADDRESS, [settings.CONFIRMATION_EMAIL],
+               'confirm_request', context, html_to_text=True)
 
 
-def request_confirm(info):
-    confirmation = models.Confirmation.objects.create(info=info)
-    send_confirm_request(info, confirmation.id)
+def request_confirm(src_path):
+    basename = os.path.basename(src_path)
+    dst_path = os.path.join(settings.DEFAULT_DST_PATH, basename)
+    confirmation = models.Confirmation.objects.create(
+        src_path=src_path, dst_path=dst_path)
+    send_confirm_request(confirmation)
+
+
+def copy_to_destination(src, dst):
+    try:
+        shutil.copytree(src, dst)
+    except NotADirectoryError:
+        shutil.copy(src, dst)

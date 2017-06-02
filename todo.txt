@@ -1,3 +1,8 @@
-consider adding return address to confirmation request
-need to figure out how the return call works to confirm move
+need to figure out how the return call works to confirm move, what ip? port forwarding? tunneling?
+right now we're watching for new files, but we want to watch for new directories too
+success page that tells you what was done and perhaps outputs tree or something of the like?
+
+fix email display
+figure out how to get volumes/ available in docker - should be able to do regular volumes
+
 how can we use an app or something else instead of email?

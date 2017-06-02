@@ -1,4 +1,0 @@
-{% load utility %}
-
-Confirm description: {{ confirm_description }}
-<a href="{% url_with_domain 'confirm' confirmation_id %}">Confirm</a>

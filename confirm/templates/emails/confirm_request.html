@@ -1,4 +1,7 @@
+{% extends "emails/_base.html" %}
 {% load utility %}
 
-<p>Confirm description: {{ confirm_description }}</p>
-<a href="{% url_with_domain 'confirm' confirmation_id %}">Confirm</a>
+{% block content %}
+  <p>Move {{ confirmation.src_path }} to {{ confirmation.dst_path }}?</p>
+  <a href="{% url_with_domain 'confirm' confirmation.id %}">Confirm ({% url_with_domain 'confirm' confirmation.id %})</a>
+{% endblock content %}
