@@ -1,0 +1,7 @@
+{{ formset.management_form }}
+{% for form in formset %}
+  <div>
+    {{ form }}
+    <a href="{% url 'confirm' form.id.value %}">Confirm</a>
+  </div>
+{% endfor %}

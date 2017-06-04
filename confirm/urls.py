@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     url(r'^confirm/(?P<confirmation_id>\w+)$', views.confirm, name='confirm'),
+    url(r'^confirms$', views.confirms, name='confirms'),
 ]

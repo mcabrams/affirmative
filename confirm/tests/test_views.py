@@ -3,6 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 
+from confirm.forms import ConfirmFormset
 from confirm.models import Confirmation
 
 
@@ -22,3 +23,20 @@ class ConfirmTestCase(TestCase):
         url = reverse('confirm', args=[confirmation.id])
         self.client.get(url)
         copy_to_destination.assert_called_once_with(src_path, dst_path)
+
+
+class ConfirmsTestCase(TestCase):
+    def test_request_returns_200(self):
+        url = reverse('confirms')
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, 200)
+
+    def test_renders_confirms_template(self):
+        url = reverse('confirms')
+        res = self.client.get(url)
+        self.assertTemplateUsed(res, 'confirms.html')
+
+    def test_context_passes_model_formset(self):
+        url = reverse('confirms')
+        res = self.client.get(url)
+        self.assertIsInstance(res.context['formset'], ConfirmFormset)
