@@ -1,10 +1,7 @@
-version: '2'
+version: '3'
 
 services:
   web:
-    extends:
-      file: docker-compose.base.yml
-      service: web
     links:
       - "selenium"
   selenium:

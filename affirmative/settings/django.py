@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-from .env import SECRET_KEY
+from . import env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY
+SECRET_KEY = env.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'affirmative.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': env.POSTGRESQL_PASSWORD,
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

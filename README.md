@@ -1,8 +1,13 @@
 # Affirmative
 
 ## Getting started
-Add paths to your src and dst directory volumes in the docker-compose.yml file:
+Add paths to your src and dst directory volumes in a
+docker-compose.override.yml file:
 ```
+version: '3'
+
+services:
+  web:
     volumes:
       - "SOME_PATH:/Volumes/src/"
       - "SOME_PATH:/Volumes/dst/"
@@ -11,8 +16,8 @@ Add paths to your src and dst directory volumes in the docker-compose.yml file:
 Copy and rename `web.env.example` to `web.env` with necessary
 secrets/configured environment variables.
 
-`docker-compose -f docker-compose.test.yml build`
-`docker-compose -f docker-compose.test.yml up -d`
+`docker-compose -f docker-compose.yml -f docker-compose.test.yml build`
+`docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d`
 `docker-compose exec web bash`
 
 Then run in the container

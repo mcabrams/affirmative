@@ -1,7 +1,18 @@
-version: '2'
+version: '3'
 
 services:
+  db:
+    image: postgres
   web:
-    extends:
-      file: docker-compose.base.yml
-      service: web
+    build: .
+    command: ["./wait-for.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    depends_on:
+      - db
+    env_file:
+      - web.env
+    volumes:
+      - .:/django
+    ports:
+      - "8001:8000"
+    tty: true
+    stdin_open: true
