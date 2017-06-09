@@ -31,7 +31,6 @@ class TriggerTestCase(TestCase):
 
 
 def _new_file_at_watch_directory():
-    print('***********')
     with open('acceptance_tests/tmp/foobar.txt', 'w') as f:
         f.write('hello world')
 

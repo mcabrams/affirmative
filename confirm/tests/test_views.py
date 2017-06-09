@@ -22,7 +22,8 @@ class ConfirmTestCase(TestCase):
                                                    dst_path=dst_path)
         url = reverse('confirm', args=[confirmation.id])
         self.client.get(url)
-        copy_to_destination.assert_called_once_with(src_path, dst_path)
+        expected_args = (src_path, dst_path,)
+        copy_to_destination.delay.assert_called_once_with(args=expected_args)
 
 
 class ConfirmsTestCase(TestCase):

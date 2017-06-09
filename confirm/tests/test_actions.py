@@ -42,18 +42,3 @@ class SendConfirmRequestTestCase(TestCase):
             'Affirmative?', actions.EMAIL_ADDRESS,
             [settings.CONFIRMATION_EMAIL], 'confirm_request', expected_context,
             html_to_text=True)
-
-
-class CopyToDestinationTestCase(TestCase):
-    src, dst = 'foo/', 'bar/'
-
-    @patch('confirm.actions.shutil')
-    def test_copies_directory_path_to_destination(self, shutil):
-        actions.copy_to_destination(self.src, self.dst)
-        shutil.copytree.assert_called_once_with(self.src, self.dst)
-
-    @patch('confirm.actions.shutil')
-    def test_copies_file_if_not_directory(self, shutil):
-        shutil.copytree.side_effect = NotADirectoryError
-        actions.copy_to_destination(self.src, self.dst)
-        shutil.copy.assert_called_once_with(self.src, self.dst)

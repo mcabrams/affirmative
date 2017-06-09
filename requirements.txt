@@ -1,5 +1,6 @@
 Django==1.11
 bpython
+celery==4.0.2
 django-anymail==0.9
 html2text==2016.9.19
 isort

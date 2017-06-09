@@ -1,5 +1,4 @@
 import os
-import shutil
 
 from django.conf import settings
 
@@ -25,10 +24,3 @@ def request_confirm(src_path):
     confirmation = models.Confirmation.objects.create(
         src_path=src_path, dst_path=dst_path)
     send_confirm_request(confirmation)
-
-
-def copy_to_destination(src, dst):
-    try:
-        shutil.copytree(src, dst)
-    except NotADirectoryError:
-        shutil.copy(src, dst)

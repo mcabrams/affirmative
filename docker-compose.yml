@@ -3,9 +3,24 @@ version: '3'
 services:
   db:
     image: postgres
+  broker:
+    image: rabbitmq
+
+  worker:
+    build: .
+    command: celery -A affirmative worker --loglevel=info
+    depends_on:
+      - broker
+    env_file:
+      - web.env
+    volumes:
+      - .:/django
+
   web:
     build: .
     command: ["./wait-for.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    links:
+      - broker
     depends_on:
       - db
     env_file:
