@@ -8,6 +8,8 @@ from selenium.webdriver.remote import webdriver
 
 
 class FunctionalTestCase(LiveServerTestCase):
+    host = 'web'
+
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.WebDriver(
