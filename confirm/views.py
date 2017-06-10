@@ -8,11 +8,11 @@ from .models import Confirmation
 
 def confirm(request, confirmation_id):
     confirmation = Confirmation.objects.get(id=confirmation_id)
-    copy_to_destination.delay(args=(confirmation.src_path,
+    copy_to_destination.apply(args=(confirmation.src_path,
                                     confirmation.dst_path))
     confirmation.confirm()
 
-    return HttpResponse()
+    return HttpResponse('Confirmed.')
 
 
 def confirms(request):

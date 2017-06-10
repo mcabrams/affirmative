@@ -1,7 +1,9 @@
 {{ formset.management_form }}
 {% for form in formset %}
-  <div>
+  <div class="form-group">
     {{ form }}
     <a href="{% url 'confirm' form.id.value %}">Confirm</a>
   </div>
+{% empty %}
+  <p>No confirms to list.</p>
 {% endfor %}
